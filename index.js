@@ -23,6 +23,8 @@ async function run(){
         const ledTVCollection = client.db('tv-bazarbd').collection('ledTvCollection');
         // smart tv data
         const smartTVCollection = client.db('tv-bazarbd').collection('smartTvCollection');
+        // booking collcetion
+        const bookingCollection = client.db('tv-bazarbd').collection('booking');
 
         // gettung crt tv data
         app.get('/crtTvCollection', async(req, res) => {
@@ -41,6 +43,13 @@ async function run(){
             const query = {};
             const tv = await smartTVCollection.find(query).toArray();
             res.send(tv);
+        })
+
+        // booking info posted to data base 
+        app.post('/booking', async(req, res) => {
+            const booking = req.body;
+            const result = await bookingCollection.insertOne(booking);
+            res.send(result);
         })
     }
     finally{
