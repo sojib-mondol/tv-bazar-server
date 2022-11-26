@@ -77,9 +77,15 @@ async function run(){
             } 
         });
 
-        // getting uer data
+        // getting allbuyers data
         app.get('/allbuyers', async (req, res) => {
             const query = {"role": "buyers"};
+            const users = await usersCollection.find(query).toArray();
+            res.send(users);
+        });
+        // getting allselers data
+        app.get('/allselers', async (req, res) => {
+            const query = {"role": "sellers"};
             const users = await usersCollection.find(query).toArray();
             res.send(users);
         });
