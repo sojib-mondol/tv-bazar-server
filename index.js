@@ -38,7 +38,7 @@ async function run(){
             const tv = await ledTVCollection.find(query).toArray();
             res.send(tv);
         })
-        // gettung smart tv data
+        // getting smart tv data
         app.get('/smartTvCollection', async(req, res) => {
             const query = {};
             const tv = await smartTVCollection.find(query).toArray();
@@ -50,6 +50,13 @@ async function run(){
             const booking = req.body;
             const result = await bookingCollection.insertOne(booking);
             res.send(result);
+        })
+        // getting booking data 
+        app.get('/booking', async(req, res) => {
+            const email = req.query.email;
+            const query = {email: email};
+            const booking = await bookingCollection.find(query).toArray();
+            res.send(booking);
         })
     }
     finally{
