@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const jwt = require('jsonwebtoken');
+
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 
@@ -65,9 +65,23 @@ async function run(){
         // saving user data to server
         app.post('/users', async (req, res) => {
             const user = req.body;
-            //console.log(user);
-            const result = await usersCollection.insertOne(user);
-            res.send(result);
+            const query = {email: user.email};
+            const data = await usersCollection.find(query).toArray();
+            if(data.length === 0){
+                const result = await usersCollection.insertOne(user);
+                res.send(result);
+                console.log(user);
+            }else {
+                res.send("User Alredy added");
+                console.log("User Alredy added");
+            } 
+        });
+
+        // getting uer data
+        app.get('/allbuyers', async (req, res) => {
+            const query = {"role": "buyers"};
+            const users = await usersCollection.find(query).toArray();
+            res.send(users);
         });
 
     }
