@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 
@@ -25,6 +26,8 @@ async function run(){
         const smartTVCollection = client.db('tv-bazarbd').collection('smartTvCollection');
         // booking collcetion
         const bookingCollection = client.db('tv-bazarbd').collection('booking');
+        // Users Collection
+        const usersCollection = client.db('tv-bazarbd').collection('users');
 
         // gettung crt tv data
         app.get('/crtTvCollection', async(req, res) => {
@@ -58,6 +61,15 @@ async function run(){
             const booking = await bookingCollection.find(query).toArray();
             res.send(booking);
         })
+
+        // saving user data to server
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            //console.log(user);
+            const result = await usersCollection.insertOne(user);
+            res.send(result);
+        });
+
     }
     finally{
 
