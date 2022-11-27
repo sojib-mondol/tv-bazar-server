@@ -30,6 +30,8 @@ async function run(){
         const usersCollection = client.db('tv-bazarbd').collection('users');
         // products collection 
         const addProductsCollection = client.db('tv-bazarbd').collection('products');
+        // products collection 
+        const addAdvertiseCollection = client.db('tv-bazarbd').collection('advertise');
 
         // gettung crt tv data
         app.get('/crtTvCollection', async(req, res) => {
@@ -136,6 +138,12 @@ async function run(){
             const result = await addProductsCollection.deleteOne(filter);
             res.send(result);
         })
+        // AdvertiseItems database post
+        app.post('/advertisement', async (req, res) => {
+            const products = req.body;
+            const result = await addAdvertiseCollection.insertOne(products);
+            res.send(result);
+          })
 
     }
     finally{
