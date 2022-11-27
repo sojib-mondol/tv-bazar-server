@@ -158,6 +158,13 @@ async function run(){
             const result = await addAdvertiseCollection.deleteOne(filter);
             res.send(result);
         })
+        // delete a user from added product
+        app.delete('/users/:id', async (req, res) => {
+            const id = req = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await usersCollection.deleteOne(filter);
+            res.send(result);
+        })
 
     }
     finally{
