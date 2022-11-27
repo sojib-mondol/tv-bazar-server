@@ -144,6 +144,20 @@ async function run(){
             const result = await addAdvertiseCollection.insertOne(products);
             res.send(result);
           })
+        // AdvertiseItems database post
+        app.get('/advertisement', async (req, res) => {
+            const email = req.query.email;
+            const query = {email: email};
+            const products = await addAdvertiseCollection.find(query).toArray();
+            res.send(products);
+          })
+        // delete a product from advertise data
+        app.delete('/advertisement/:id', async (req, res) => {
+            const id = req = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await addAdvertiseCollection.deleteOne(filter);
+            res.send(result);
+        })
 
     }
     finally{
