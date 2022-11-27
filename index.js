@@ -119,7 +119,23 @@ async function run(){
             const products = req.body;
             const result = await addProductsCollection.insertOne(products);
             res.send(result);
-          }) 
+          })
+
+        // addproduct database get
+        app.get('/addedProducts', async (req, res) => {
+            const email = req.query.email;
+            const query = {email: email};
+            const products = await addProductsCollection.find(query).toArray();
+            res.send(products);
+          })
+          
+        // delete a product from added product
+        app.delete('/addedProducts/:id', async (req, res) => {
+            const id = req = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await addProductsCollection.deleteOne(filter);
+            res.send(result);
+        })
 
     }
     finally{
